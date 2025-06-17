@@ -1,10 +1,17 @@
 from flask import Flask
+from flask_sqlalchemy import SQLAlchemy
+
+db = SQLAlchemy()
+DB_NAME = "jobaid.db"
+
 def create_app():
     app = Flask(__name__)
     
     # Load configuration
     app.config['SECRET_KEY'] = 'sredtrfygtuyhioijk'
-
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:password@localhost/app'
+    db.init_app(app)
+    
     from .views import views
     from .auth import auth
 
