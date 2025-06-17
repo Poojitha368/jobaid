@@ -3,10 +3,12 @@
 {% block title %}Login{% endblock %}
 
 {% block content %}
-This is Login page
 
-{% if boolean == True %}
-Yes it is True
-{% endif %}
+<form method = 'POST' action="/login">
+    <h3>Login</h3>
+    <input type = "email" name="email"><br/>
+    <input type = "password" name = "password">
+    <button type = "submit">Login</button>
+</form>
 
 {% endblock %}
