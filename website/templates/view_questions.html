@@ -1,0 +1,26 @@
+{% extends  "base.html" %}
+{%  block title %} View questions {% endblock %}
+{% block content%}
+
+<table class="table">
+    <tr>
+         <th>SNO</th>
+        <th>question</th>
+        <th>answer</th>
+        <th>skill</th>
+        <th>Difficulty</th>
+    </tr>
+   
+    {% for question in questions%}
+    <tr>
+        <td>{{question.q_id}}</td>
+        <td>{{question.question}}</td>
+        <td>{{question.answer}}</td>
+        <td>{{question.skill}}</td>
+        <td>{{question.difficulty}}</td>
+    </tr>
+    {% endfor %}
+</table>
+
+
+{% endblock %}
