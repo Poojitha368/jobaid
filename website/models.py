@@ -19,3 +19,9 @@ class User(db.Model,UserMixin):
     password = db.Column(db.String(150))
     # notes = db.relationship('Note')
 
+class Questions(db.Model):
+    q_id = db.Column(db.Integer,primary_key = True)
+    question = db.Column(db.Text)
+    answer = db.Column(db.Text)
+    skill = db.Column(db.Text)
+    difficulty = db.Column(db.String(6))
