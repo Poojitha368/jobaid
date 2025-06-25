@@ -1,4 +1,4 @@
-from flask import Blueprint,render_template
+from flask import Blueprint,render_template,request
 from flask_login import login_required,current_user
 from .models import Questions
 
@@ -11,6 +11,8 @@ def home():
 
 @views.route('/view_questions')
 def view_questions():
+    if request.method == 'POST':
+        pass
     questions = Questions.query.all()
     '''q=[]
     for question in questions:
