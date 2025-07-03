@@ -11,6 +11,7 @@ def home():
 
 @views.route('/view_questions',methods=['POST','GET'])
 def view_questions():
+    questions=[]
     if request.method == 'POST':
         skill=request.form['skill']
         difficulties = request.form.getlist('difficulty')
