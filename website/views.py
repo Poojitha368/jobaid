@@ -46,3 +46,9 @@ def view_questions():
         return q'''
 
     return render_template('view_questions.html',questions=questions)
+
+@views.route('/selected_questions',methods=['GET','POST'])
+def selected_questions():
+    if request.method == 'POST':
+        print(request.form)
+    return request.form
