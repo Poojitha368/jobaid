@@ -17,15 +17,17 @@
 {% if questions %}
     <table class="table">
         <tr>
+            <th></th>
             <th>SNO</th>
             <th>question</th>
             <th>answer</th>
             <th>skill</th>
             <th>Difficulty</th>
         </tr>
-    
+        <form method="POST" action="/selected_questions">
         {% for question in questions%}
         <tr>
+            <td><input type="checkbox" name="question" value={{question.q_id}}></td>
             <td>{{question.q_id}}</td>
             <td>{{question.question}}</td>
             <td>{{question.answer}}</td>
@@ -33,6 +35,7 @@
             <td>{{question.difficulty}}</td>
         </tr>
         {% endfor %}
+        </form>
     </table>
 {% endif %}
 

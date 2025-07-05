@@ -46,4 +46,3 @@ def view_questions():
         return q'''
 
     return render_template('view_questions.html',questions=questions)
-
