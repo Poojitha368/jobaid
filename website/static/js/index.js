@@ -1,0 +1,92 @@
+$('#filter-form').submit((e)=>{
+    e.preventDefault();
+    const skill = $('#skill').val();
+    const difficulties = []
+    $("input[name='difficulty']:checked").each(function(){
+        difficulties.push($(this).val());
+    })
+    console.log(difficulties);
+    const formData = {
+        skill:skill,
+        difficulties:difficulties
+    }
+    // console.log(`form submitted with skill ${formData.skill},${formData.difficulties}`)
+    // ajax post request
+    $.ajax({
+        url:'/view_questions',
+        type:'POST',
+        contentType:'application/json',
+        data:JSON.stringify(formData),
+        success: function(response){
+            console.log("server response",response);
+            view_data_in_table(response);
+            // alert("form submitted successfully");
+        }
+    })
+})
+
+function escapeHtml(text) {
+    return text
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;");
+}
+
+function view_data_in_table(questions){
+    let tableHtml = `
+    <table class='table'>
+    <tr>
+    <th></th>
+    <th>ID</th>
+    <th>question</th>
+    <th>answer</th>
+    <th>skill</th>
+    <th>difficulty</th>
+    </tr> `
+    sno = 1
+    questions.forEach(q =>{
+        tableHtml += `
+        <td><input type="checkbox" class="question-checkbox" data-qid=${q.q_id}></td>
+        <td>${sno}</td>
+        <td>${escapeHtml(q.question)}</td>
+        <td>${escapeHtml(q.answer)}</td>
+        <td>${q.skill}</td>
+        <td>${q.difficulty}</td> 
+        </tr>
+        `
+        sno+=1
+    })
+
+    tableHtml += `</table>`;
+    $('#question-table').html(tableHtml);
+    restoreCheckBoxes();
+}
+
+// we are using documnet as we are adding question dynamically using ajax so after document loads only this is checked
+const checkedQuestions = new Set()
+$(document).on('change','.question-checkbox',function(){
+    Id = $(this).data('qid');
+    if($(this).is(':checked')){
+        checkedQuestions.add(Id);
+    }
+    else{
+        checkedQuestions.delete(Id);
+    }
+    console.log(checkedQuestions);
+})
+
+// restoring the checkboxes
+function restoreCheckBoxes(){
+    $('.question-checkbox').each(function(){
+        Id = $(this).data('qid');
+        if(checkedQuestions.has(Id)){
+            $(this).prop('checked',true);
+        }
+    })
+}
+
+$('#finalize-selected-questions').click(function(){
+    $.ajax({
+        url:"finalize"
+    })
+})
