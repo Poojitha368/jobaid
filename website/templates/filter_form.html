@@ -1,0 +1,19 @@
+{% extends  "base.html" %}
+{%  block title %} View questions {% endblock %}
+{% block content%}
+
+<form id="filter-form">
+    <select name="skill" id="skill">
+        <option value="">Select skill</option>
+        <option value = "html">html</option>
+        <option value = "css">css</option>
+    </select>
+    <input type = 'checkbox' name="difficulty" value="Easy">Easy
+    <input type = 'checkbox' name="difficulty" value="Medium">Medium
+    <input type = 'checkbox' name="difficulty" value="Hard">Hard
+    <button type="submit" id="btn">submit</button>
+</form>
+<button id="finalize-selected-questions">Finalize selected question</button>
+<div id="question-table"></div>
+
+{% endblock %}
