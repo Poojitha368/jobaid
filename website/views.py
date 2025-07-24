@@ -42,8 +42,29 @@ def view_questions():
 
 
 
-@views.route('/selected_questions',methods=['GET','POST'])
-def selected_questions():
-    if request.method == 'POST':
-        print(request.form)
-    return request.form
+@views.route('/finalize_questions',methods=['GET','POST'])
+def finalize_questions():
+    data = request.get_json()
+    qids = data.get('qid',[])
+
+    final_questions = []
+    query = Questions.query
+    if qids:
+        query = query.filter(Questions.q_id.in_(qids))
+    final_questions = query.all()
+
+    f_q = []
+    for question in final_questions:
+        f_q.append({
+            "q_id" : question.q_id,
+            "question":question.question,
+            "answer":question.answer,
+            "skill":question.skill,
+            "difficulty":question.difficulty
+        })
+    return jsonify(f_q)
+
+
+@views.route('/view_final_questions',methods=['GET'])
+def view_final_questions():
+    return render_template("final_questions.html")
