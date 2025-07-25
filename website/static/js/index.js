@@ -97,6 +97,77 @@ $('#finalize-selected-questions').click(function(){
         success:function(response){
             alert("finalized questions");
             console.log(response);
+            sessionStorage.setItem('finalQuestions',JSON.stringify(response));
+            window.location.href='/view_final_questions';
         }
     })
+})
+
+
+$(document).ready(function(){
+    if (window.location.pathname == "/view_final_questions"){
+        renderFinalQuestions();
+    }
+})
+
+function renderFinalQuestions(){
+    const questions = JSON.parse(sessionStorage.getItem('finalQuestions'));
+    if(questions.length==0){
+        $('#final-questions').html("<p>No questions available select questions</p>");
+        return;
+    }
+    let tableHtml = `
+    <table class='table'>
+    <tr>
+    <th></th>
+    <th>ID</th>
+    <th>question</th>
+    <th>answer</th>
+    <th>skill</th>
+    <th>difficulty</th>
+    </tr> `
+    sno = 1
+    questions.forEach(q =>{
+        tableHtml += `
+        <td>${sno}</td>
+        <td>${escapeHtml(q.question)}</td>
+        <td>${escapeHtml(q.answer)}</td>
+        <td>${q.skill}</td>
+        <td>${q.difficulty}</td> 
+        </tr>
+        `
+        sno+=1
+    })
+
+    tableHtml += `</table>`;
+    $('#final-questions').html(tableHtml);
+}
+
+$("#proceed_with_final_questions").click(function(){
+    alert("created interview");
+})
+
+InterviewName = ""
+
+$("#create-interview").click(function(){
+    InterviewForm = `
+    <form id="interview-form">
+        <input type="text" id="interview-name" placeholder="Enter interview name"></input>
+        <button type="submit">Submit</button>
+    </form> `
+    $('#InterviewForm').html(InterviewForm);
+})
+
+
+$("#interview-form").submit(function(e){
+    e.preventDefault();
+    const InterviewName="";
+    InterviewName = $('#interview-name').val();
+    // $.ajax({
+    //     url:"/sumit_interview_form",
+    //     type:"POST",
+    //     contentType:"application/json",
+    //     data
+    // })
+    console.log(InterviewName);
 })

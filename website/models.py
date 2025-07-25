@@ -25,3 +25,7 @@ class Questions(db.Model):
     answer = db.Column(db.Text)
     skill = db.Column(db.Text)
     difficulty = db.Column(db.String(6))
+
+class Interview(db.Model):
+    I_id = db.Column(db.Integer,primary_key=True,autoincrement = True)
+    I_name = db.Column(db.String(150))
