@@ -1,6 +1,7 @@
 from flask import Blueprint,render_template,request,flash,jsonify
 from flask_login import login_required,current_user
-from .models import Questions
+from .models import Questions,Interview
+from . import db
 
 views = Blueprint('views',__name__)
 
@@ -68,3 +69,12 @@ def finalize_questions():
 @views.route('/view_final_questions',methods=['GET'])
 def view_final_questions():
     return render_template("final_questions.html")
+
+@views.route('/sumit_interview_form',methods = ['POST'])
+def sumit_interview_form():
+    data = request.get_json()
+    InterviewName = data.get('name')
+    new_interview = Interview(I_name=InterviewName)
+    db.session.add(new_interview)
+    db.session.commit()
+    return "Interview added successfully"
