@@ -1,6 +1,6 @@
 from flask import Blueprint,render_template,request,flash,jsonify
 from flask_login import login_required,current_user
-from .models import Questions,Interview
+from .models import Questions,Interview,Interview_Questions
 from . import db
 
 views = Blueprint('views',__name__)
@@ -77,4 +77,16 @@ def sumit_interview_form():
     new_interview = Interview(I_name=InterviewName)
     db.session.add(new_interview)
     db.session.commit()
-    return "Interview added successfully"
+    return jsonify({"new_interviewId":new_interview.I_id})
+
+@views.route('/create_interview',methods = ['POST'])
+def create_interview():
+    data = request.get_json()
+    InterviewId = 1
+    questions = data.get('questionIds',[])
+    for q in questions:
+        print(q)
+        interview_question_record = Interview_Questions(I_id=InterviewId,q_id=q)
+        db.session.add(interview_question_record)
+    db.session.commit()
+    return "created interview successfully"
