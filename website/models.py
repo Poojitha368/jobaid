@@ -29,3 +29,8 @@ class Questions(db.Model):
 class Interview(db.Model):
     I_id = db.Column(db.Integer,primary_key=True,autoincrement = True)
     I_name = db.Column(db.String(150))
+
+class Interview_Questions(db.Model):
+    iq_id = db.Column(db.Integer,primary_key=True,autoincrement = True)
+    I_id = db.Column(db.Integer)
+    q_id = db.Column(db.Integer)
