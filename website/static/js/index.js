@@ -150,24 +150,25 @@ $("#proceed_with_final_questions").click(function(){
 InterviewName = ""
 
 $("#create-interview").click(function(){
-    InterviewForm = `
-    <form id="interview-form">
-        <input type="text" id="interview-name" placeholder="Enter interview name"></input>
-        <button type="submit">Submit</button>
-    </form> `
-    $('#InterviewForm').html(InterviewForm);
+    $('#InterviewForm').css('visibility','visible');
 })
 
 
 $("#interview-form").submit(function(e){
     e.preventDefault();
-    const InterviewName="";
-    InterviewName = $('#interview-name').val();
-    // $.ajax({
-    //     url:"/sumit_interview_form",
-    //     type:"POST",
-    //     contentType:"application/json",
-    //     data
-    // })
+    let InterviewName="";
+    InterviewName = {
+        "name": $('#interview-name').val()
+    };
+    
     console.log(InterviewName);
+    $.ajax({
+        url:"/sumit_interview_form",
+        type:"POST",
+        contentType:"application/json",
+        data : JSON.stringify(InterviewName),
+        success : function(response){
+            console.log(response);
+        }
+    })
 })
