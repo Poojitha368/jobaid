@@ -90,7 +90,7 @@ $('#finalize-selected-questions').click(function(){
         "qid":Array.from(checkedQuestions)
     }
     $.ajax({
-        url:"finalize_questions",
+        url:"/finalize_questions",
         type:"POST",
         contentType:"application/json",
         data:JSON.stringify(finalizedQuestions),
@@ -109,6 +109,7 @@ $(document).ready(function(){
         renderFinalQuestions();
     }
 })
+
 
 function renderFinalQuestions(){
     const questions = JSON.parse(sessionStorage.getItem('finalQuestions'));
@@ -145,6 +146,21 @@ function renderFinalQuestions(){
 
 $("#proceed_with_final_questions").click(function(){
     alert("created interview");
+    InterviewId = sessionStorage.getItem('InterviewId');
+    const questions = sessionStorage.getItem('finalQuestions');
+    const finalInterviewData = {
+        'InterviewId':InterviewId,
+        'questions':questions
+    }
+    $.ajax({
+        url:'/create_interview',
+        type:'POST',
+        contentType : 'application/json',
+        data : JSON.stringify(finalInterviewData),
+        success : function(response){
+            console.log(response);
+        }
+    })
 })
 
 InterviewName = ""
@@ -168,7 +184,12 @@ $("#interview-form").submit(function(e){
         contentType:"application/json",
         data : JSON.stringify(InterviewName),
         success : function(response){
-            console.log(response);
+            console.log(response.new_interviewId);
+            sessionStorage.setItem('InterviewId',response.new_interviewId);
+            window.location.href = '/filter_form';
         }
     })
 })
+
+
+
