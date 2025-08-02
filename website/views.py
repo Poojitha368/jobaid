@@ -101,3 +101,12 @@ def list_interviews():
             "I_name":interview.I_name
         })
     return jsonify(interviewList)
+
+@views.route('/delete_interview',methods=['POST'])
+def delete_interview():
+    data = request.get_json()
+    deletionId = data.get('dId')
+    interviewToDelete = Interview.query.get(deletionId)
+    db.session.delete(interviewToDelete)
+    db.session.commit()
+    return "interview deleted sucessfully"
