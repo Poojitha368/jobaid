@@ -146,8 +146,8 @@ function renderFinalQuestions(){
 
 $("#proceed_with_final_questions").click(function(){
     alert("created interview");
-    InterviewId = sessionStorage.getItem('InterviewId');
-    const questions = sessionStorage.getItem('finalQuestions');
+    InterviewId = parseInt(sessionStorage.getItem('InterviewId'));
+    const questions = JSON.parse(sessionStorage.getItem('finalQuestions'));
     const finalInterviewData = {
         'InterviewId':InterviewId,
         'questions':questions
@@ -191,5 +191,48 @@ $("#interview-form").submit(function(e){
     })
 })
 
+$('#list-interviews').click(function(){
+    console.log("button clicked");
+    $.ajax({
+        url:"/list_interviews",
+        type:"GET",
+        contentType:"application/json",
+        success:function(response){
+            console.log("got interview questions");
+            listAllInterviews(response);
+        }
+    })
+})
 
+function listAllInterviews(interviewList){
+    InterviewsContainer = `
+    <div class="container text-center">
+            <div class="row row-cols-3">`
+    interviewList.forEach(interview =>{
+        InterviewsContainer += `
+                <div class="col mt-3">
+                    <div class="card text-center">
+                        <div class="card-body">
+                            <h5 class="card-title">${interview.I_name}</h5>
+                            <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+                            <a href="/edit_interview" class="btn btn-primary w-25">edit</a>
+                            <button class="btn btn-primary delete-interview w-20" data-i_id=${interview.I_id}>delete</button>
+                        </div>
+                    </div>
+                </div>`
+    })
+    InterviewsContainer += `
+        </div>
+        </div>`
+    $('#interviews-container').html(InterviewsContainer);
+}
 
+$(document).on('click','.delete-interview',function(){
+    I_id = $(this).data('i_id');
+    console.log(I_id);
+    $.ajax({
+        url:'/delete_interview',
+        type:'POST',
+        contentType:'application/json',
+    })
+})
