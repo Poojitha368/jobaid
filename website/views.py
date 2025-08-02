@@ -82,11 +82,22 @@ def sumit_interview_form():
 @views.route('/create_interview',methods = ['POST'])
 def create_interview():
     data = request.get_json()
-    InterviewId = 1
-    questions = data.get('questionIds',[])
+    InterviewId = data.get('InterviewId')
+    questions = data.get('questions',[])
     for q in questions:
-        print(q)
-        interview_question_record = Interview_Questions(I_id=InterviewId,q_id=q)
+        interview_question_record = Interview_Questions(I_id=InterviewId,q_id=q.get('q_id'))
         db.session.add(interview_question_record)
     db.session.commit()
     return "created interview successfully"
+
+
+@views.route('list_interviews',methods=['GET'])
+def list_interviews():
+    interviews  = Interview.query.all()
+    interviewList = []
+    for interview in interviews:
+        interviewList.append({
+            "I_id":interview.I_id,
+            "I_name":interview.I_name
+        })
+    return jsonify(interviewList)
