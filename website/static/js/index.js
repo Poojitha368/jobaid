@@ -216,11 +216,11 @@ function listAllInterviews(interviewList){
     interviewList.forEach(interview =>{
         InterviewsContainer += `
                 <div class="col mt-3">
-                    <div class="card text-center">
+                    <div class="card interview-card text-center" data-i_id=${interview.I_id}>
                         <div class="card-body">
                             <h5 class="card-title">${interview.I_name}</h5>
                             <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-                            <a href="/edit_interview" class="btn btn-primary w-25">edit</a>
+                            <a href="/edit_interview" class="btn btn-primary w-25 ">edit</a>
                             <button class="btn btn-primary delete-interview w-20" data-i_id=${interview.I_id}>delete</button>
                         </div>
                     </div>
@@ -249,3 +249,23 @@ $(document).on('click','.delete-interview',function(){
         }
     })
 })
+
+$(document).on('click','.interview-card',function(){
+    I_id = $(this).data('i_id');
+    viewId = {
+        "vId":I_id
+    }
+    $.ajax({
+        url:'/view_interview',
+        type:'POST',
+        contentType:'application/json',
+        data:JSON.stringify(viewId),
+        success:function(response){
+            console.log(response);
+            window.location.href = '/view_interview'
+        }
+    })
+})
+
+
+
