@@ -110,3 +110,27 @@ def delete_interview():
     db.session.delete(interviewToDelete)
     db.session.commit()
     return "interview deleted sucessfully"
+
+@views.route('/view_interview',methods=['POST'])
+def view_interview():
+    data = request.get_json()
+    viewId = data.get('vId')
+    interview = Interview.query.get(viewId)
+    I_name = interview.I_name
+    questions = Interview_Questions.query.filter_by(I_id=viewId).all()
+
+    q = []
+    for question in questions:
+        q.append({
+            "q_id" : question.q_id,
+            "question":question.question,
+            "answer":question.answer,
+            "skill":question.skill,
+            "difficulty":question.difficulty
+        })
+    
+    viewInterviewData = {
+        "I_name" : I_name,
+        "questions" : q
+    }
+    return jsonify(viewInterviewData)
