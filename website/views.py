@@ -111,8 +111,11 @@ def delete_interview():
     db.session.commit()
     return "interview deleted sucessfully"
 
-@views.route('/view_interview',methods=['POST'])
+@views.route('/view_interview',methods=['POST','GET'])
 def view_interview():
+    if request.method == 'GET':
+        return render_template('view_interview.html')
+    
     data = request.get_json()
     viewId = data.get('vId')
     interview = Interview.query.get(viewId)
