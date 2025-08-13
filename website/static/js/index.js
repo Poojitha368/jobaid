@@ -267,5 +267,7 @@ $(document).on('click','.interview-card',function(){
     })
 })
 
-
-
+function DisplaySpecificInterviewQuestions(InterviewData){
+    $('#view-interview-questions').html('HELLO');
+    
+}
