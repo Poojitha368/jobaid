@@ -12,7 +12,7 @@ def create_app():
     # Load configuration
     app.config['SECRET_KEY'] = 'sredtrfygtuyhioijk'
     # app.config['SQLALCHEMY_DATABASE_URI'] = f'postgresql://postgres:password@localhost/{DB_NAME}'
-    app.config['SQLALCHEMY_DATABASE_URI'] = f'mysql+pymysql://poojitha:p@ssw0rd@ls-8351950865b689bfff6492a24882a37e8a8e80df.cgd4aj6sswr0.us-east-1.rds.amazonaws.com:3306/{DB_NAME}'
+    app.config['SQLALCHEMY_DATABASE_URI'] = f'mysql+pymysql://poojitha:p%40ssw0rd@ls-8351950865b689bfff6492a24882a37e8a8e80df.cgd4aj6sswr0.us-east-1.rds.amazonaws.com:3306/{DB_NAME}'
     db.init_app(app)
 
     
