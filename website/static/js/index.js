@@ -108,6 +108,9 @@ $(document).ready(function(){
     if (window.location.pathname == "/view_final_questions"){
         renderFinalQuestions();
     }
+    if(window.location.pathname == "/fetch_interview_questions"){
+        FetchSpecificInterviewQuestions();
+    }
 })
 
 
@@ -120,10 +123,6 @@ function renderFinalQuestions(){
     let tableHtml = `
     <table class='table'>
     <tr>
-<<<<<<< HEAD
-=======
-    <th></th>
->>>>>>> 860814c5d9fd12060eff7135a278909d210034e9
     <th>ID</th>
     <th>question</th>
     <th>answer</th>
@@ -262,54 +261,49 @@ $(document).on('click','.delete-interview',function(){
 
 $(document).on('click','.view-interview',function(){
     I_id = $(this).data('i_id');
-    console.log(I_id);
-    // viewId = {
-        //     "vId":I_id
-        // }
-        $.ajax({
-            url:'/view_interview',
-            type:'GET',
-            contentType:'application/json',
-            // data:JSON.stringify(viewId),
-            success:function(response){
-                console.log(response);   
-                window.location.href = '/view_interview';
-                
-                $('#view-interview-questions').html('HELLO');
-            }
-        })
-    })
-    
-function FetchSpecificInterviewQuestions(){
-    I_id = $(this).data('i_id');
-    I_id = {
-        "I_id":I_id
-    }
+    sessionStorage.setItem("I_id", I_id);
     $.ajax({
-        url:'/fetch_interview_questions',
-        type:'GET',
-        contentType:'application/json',
-        data:JSON.stringify(I_id),
-        success:function(response){
-            console.log(response);
-            DisplaySpecificInterviewQuestions(response)
+        url : '/view_interview',
+        type : 'GET',
+        contentType : 'application/json',
+        success : function(response){
+            window.location.href = '/fetch_interview_questions';
         }
     })
+})
+
+function FetchSpecificInterviewQuestions(){
+    let I_id = sessionStorage.getItem("I_id");
+    console.log("session storage id",I_id);
+        I_id = {
+            "I_id":I_id
+        }
+        $.ajax({
+            url:'/fetch_interview_questions',
+            type:'POST',
+            contentType:'application/json',
+            data:JSON.stringify(I_id),
+            success:function(response){
+                console.log(response);
+                DisplaySpecificInterviewQuestions(response)
+            }
+        })
+ }
+    
+    
 
 function DisplaySpecificInterviewQuestions(InterviewQuestions){
     if(InterviewQuestions.length==0){
         $('#view-interview-questions').html("no questions");
         return;
     }
+    console.log("display specific questions");
+    console.log(InterviewQuestions);
     let tableHtml = `
     <table class='table'>
     <tr>
-    <th></th>
-    <th>ID</th>
-    <th>question</th>
-    <th>answer</th>
-    <th>skill</th>
-    <th>difficulty</th>
+    <th>Interview nzme</th>
+    <th>questions</th>
     </tr> `
     sno = 1
     InterviewQuestions.forEach(I =>{
@@ -324,5 +318,5 @@ function DisplaySpecificInterviewQuestions(InterviewQuestions){
 
     tableHtml += `</table>`;
     $('#view-interview-questions').html(tableHtml);
-    }
 }
+
