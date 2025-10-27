@@ -159,6 +159,8 @@ $("#proceed_with_final_questions").click(function(){
         data : JSON.stringify(finalInterviewData),
         success : function(response){
             console.log(response);
+            window.location.href = '/home';
+
         }
     })
 })
@@ -210,8 +212,8 @@ function fetchAndRenderInterviews(){
 }
 
 function listAllInterviews(interviewList){
-    if(questions.length==0){
-        $('##interviews-container').html("<p>No interviews available add interview</p>");
+    if(interviewList.length==0){
+        $('#interviews-container').html("<p>No interviews available add interview</p>");
         return;
     }
     InterviewsContainer = `
