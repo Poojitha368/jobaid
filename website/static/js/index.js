@@ -159,7 +159,7 @@ $("#proceed_with_final_questions").click(function(){
         data : JSON.stringify(finalInterviewData),
         success : function(response){
             console.log(response);
-            window.location.href = '/home';
+            window.location.href = '/';
 
         }
     })
