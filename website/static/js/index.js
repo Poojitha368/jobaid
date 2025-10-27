@@ -221,7 +221,6 @@ function listAllInterviews(interviewList){
     }
     InterviewsContainer = `
     <div class="container text-center">
-<<<<<<< HEAD
     <div class="row row-cols-3">`
 
     interviewList.forEach(interview =>{
@@ -240,24 +239,6 @@ function listAllInterviews(interviewList){
     InterviewsContainer += `
     </div>
     </div>`
-=======
-            <div class="row row-cols-3">`
-    interviewList.forEach(interview =>{
-        InterviewsContainer += `
-                <div class="col mt-3">
-                    <div class="card interview-card text-center" data-i_id=${interview.I_id}>
-                        <div class="card-body">
-                            <h5 class="card-title">${interview.I_name}</h5>
-                            <a href="/edit_interview" class="btn btn-primary w-25 ">edit</a>
-                            <button class="btn btn-primary delete-interview w-20" data-i_id=${interview.I_id}>delete</button>
-                        </div>
-                    </div>
-                </div>`
-    })
-    InterviewsContainer += `
-        </div>
-        </div>`
->>>>>>> 860814c5d9fd12060eff7135a278909d210034e9
     $('#interviews-container').html(InterviewsContainer);
 }
 
@@ -279,7 +260,6 @@ $(document).on('click','.delete-interview',function(){
     })
 })
 
-<<<<<<< HEAD
 $(document).on('click','.view-interview',function(){
     I_id = $(this).data('i_id');
     console.log(I_id);
@@ -346,26 +326,3 @@ function DisplaySpecificInterviewQuestions(InterviewQuestions){
     $('#view-interview-questions').html(tableHtml);
     }
 }
-=======
-$(document).on('click','.interview-card',function(){
-    I_id = $(this).data('i_id');
-    viewId = {
-        "vId":I_id
-    }
-    $.ajax({
-        url:'/view_interview',
-        type:'POST',
-        contentType:'application/json',
-        data:JSON.stringify(viewId),
-        success:function(response){
-            console.log(response);
-            window.location.href = '/view_interview'
-        }
-    })
-})
-
-function DisplaySpecificInterviewQuestions(InterviewData){
-    $('#view-interview-questions').html('HELLO');
-    
-}
->>>>>>> 860814c5d9fd12060eff7135a278909d210034e9
