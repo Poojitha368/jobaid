@@ -111,7 +111,9 @@ def delete_interview():
     db.session.commit()
     return "interview deleted sucessfully"
 
-@views.route('/view_interview',methods=['POST','GET'])
+
+
+'''@views.route('/view_interview',methods=['POST','GET'])
 def view_interview():
     if request.method == 'GET':
         return render_template('view_interview.html')
@@ -136,4 +138,4 @@ def view_interview():
         "I_name" : I_name,
         "questions" : q
     }
-    return jsonify(viewInterviewData)
+    return jsonify(viewInterviewData)'''
