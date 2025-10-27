@@ -112,26 +112,16 @@ def delete_interview():
     return "interview deleted sucessfully"
 
 
-
-<<<<<<< HEAD
-@views.route('/view_interview',methods=['GET'])
-def view_interview_html():
-    return render_template('view_interview.html')
-
   
 @views.route('/view_interview',methods=['GET'])
 def view_interview():
+    return render_template('view_interview.html')
+
+@views.route('/fetch_interview_questions',methods=['POST'])
+def fetch_interview_questions():
     data = request.get_json()
     viewId = data.get('I_id')
-=======
-'''@views.route('/view_interview',methods=['POST','GET'])
-def view_interview():
-    if request.method == 'GET':
-        return render_template('view_interview.html')
-    
-    data = request.get_json()
-    viewId = data.get('vId')
->>>>>>> 860814c5d9fd12060eff7135a278909d210034e9
+    print("interview id is",viewId)
     interview = Interview.query.get(viewId)
     I_name = interview.I_name
     questions = Interview_Questions.query.filter_by(I_id=viewId).all()
@@ -150,8 +140,4 @@ def view_interview():
         "I_name" : I_name,
         "questions" : q
     }
-<<<<<<< HEAD
     return jsonify(viewInterviewData)
-=======
-    return jsonify(viewInterviewData)'''
->>>>>>> 860814c5d9fd12060eff7135a278909d210034e9
