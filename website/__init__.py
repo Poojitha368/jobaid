@@ -2,17 +2,27 @@ from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from os import path
 from flask_login import LoginManager
+from dotenv import load_dotenv
+import os
 
 db = SQLAlchemy()
 DB_NAME = "jobaid"
+
 
 def create_app():
     app = Flask(__name__)
     
     # Load configuration
+    load_dotenv() 
     app.config['SECRET_KEY'] = 'sredtrfygtuyhioijk'
     # app.config['SQLALCHEMY_DATABASE_URI'] = f'postgresql://postgres:password@localhost/{DB_NAME}'
-    app.config['SQLALCHEMY_DATABASE_URI'] = f'mysql+pymysql://poojitha:p%40ssw0rd@ls-8351950865b689bfff6492a24882a37e8a8e80df.cgd4aj6sswr0.us-east-1.rds.amazonaws.com:3306/{DB_NAME}'
+    # app.config['SQLALCHEMY_DATABASE_URI'] = f'mysql+pymysql://poojitha:p%40ssw0rd@ls-8351950865b689bfff6492a24882a37e8a8e80df.cgd4aj6sswr0.us-east-1.rds.amazonaws.com:3306/{DB_NAME}'
+    DB_USER = os.getenv('DB_USER')
+    DB_PASSWORD = os.getenv('DB_PASSWORD')
+    DB_HOST = os.getenv('DB_HOST')
+    DB_PORT = os.getenv('DB_PORT', '3306')
+    DB_NAME = os.getenv('DB_NAME')
+    app.config['SQLALCHEMY_DATABASE_URI'] = f"mysql+pymysql://{DB_USER}:{DB_PASSWORD}@{DB_HOST}:{DB_PORT}/{DB_NAME}"
     db.init_app(app)
 
     
