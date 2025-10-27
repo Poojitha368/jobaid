@@ -113,13 +113,15 @@ def delete_interview():
 
 
 
-'''@views.route('/view_interview',methods=['POST','GET'])
+@views.route('/view_interview',methods=['GET'])
+def view_interview_html():
+    return render_template('view_interview.html')
+
+  
+@views.route('/view_interview',methods=['GET'])
 def view_interview():
-    if request.method == 'GET':
-        return render_template('view_interview.html')
-    
     data = request.get_json()
-    viewId = data.get('vId')
+    viewId = data.get('I_id')
     interview = Interview.query.get(viewId)
     I_name = interview.I_name
     questions = Interview_Questions.query.filter_by(I_id=viewId).all()
@@ -138,4 +140,4 @@ def view_interview():
         "I_name" : I_name,
         "questions" : q
     }
-    return jsonify(viewInterviewData)'''
+    return jsonify(viewInterviewData)
