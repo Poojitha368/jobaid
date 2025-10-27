@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block title%}Home{% endblock %}
+
+{% block content %}
+This is Home page
+<button id="create-interview">create interview</button>
+<div id="InterviewForm" style="visibility: hidden">
+    <form id="interview-form">
+        <input type="text" id="interview-name" placeholder="Enter interview name">
+        <button type="submit">Submit</button>
+    </form> 
+</div>
+
+<button id="list-interviews">List all interviews</button>
+<div id="interviews-container"></div>
+{% endblock %}
