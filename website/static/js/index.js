@@ -210,6 +210,10 @@ function fetchAndRenderInterviews(){
 }
 
 function listAllInterviews(interviewList){
+    if(questions.length==0){
+        $('##interviews-container').html("<p>No interviews available add interview</p>");
+        return;
+    }
     InterviewsContainer = `
     <div class="container text-center">
             <div class="row row-cols-3">`
@@ -219,7 +223,6 @@ function listAllInterviews(interviewList){
                     <div class="card interview-card text-center" data-i_id=${interview.I_id}>
                         <div class="card-body">
                             <h5 class="card-title">${interview.I_name}</h5>
-                            <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
                             <a href="/edit_interview" class="btn btn-primary w-25 ">edit</a>
                             <button class="btn btn-primary delete-interview w-20" data-i_id=${interview.I_id}>delete</button>
                         </div>
