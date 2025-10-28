@@ -108,8 +108,14 @@ $(document).ready(function(){
     if (window.location.pathname == "/view_final_questions"){
         renderFinalQuestions();
     }
-    if(window.location.pathname == "/fetch_interview_questions"){
-        FetchSpecificInterviewQuestions();
+    if(window.location.pathname == '/view_interview'){
+        let I_id = sessionStorage.getItem("I_id");
+        if(I_id){
+            FetchSpecificInterviewQuestions(I_id);
+        }
+        else{
+            $('view-interview-questions').html("No inteview selected");
+        }
     }
 })
 
@@ -172,7 +178,6 @@ InterviewName = ""
 $("#create-interview").click(function(){
     $('#InterviewForm').css('visibility','visible');
 })
-
 
 $("#interview-form").submit(function(e){
     e.preventDefault();
@@ -262,18 +267,10 @@ $(document).on('click','.delete-interview',function(){
 $(document).on('click','.view-interview',function(){
     I_id = $(this).data('i_id');
     sessionStorage.setItem("I_id", I_id);
-    $.ajax({
-        url : '/view_interview',
-        type : 'GET',
-        contentType : 'application/json',
-        success : function(response){
-            window.location.href = '/fetch_interview_questions';
-        }
-    })
+    window.location.href = '/view_interview';
 })
 
-function FetchSpecificInterviewQuestions(){
-    let I_id = sessionStorage.getItem("I_id");
+function FetchSpecificInterviewQuestions(I_id){
     console.log("session storage id",I_id);
         I_id = {
             "I_id":I_id
@@ -288,35 +285,62 @@ function FetchSpecificInterviewQuestions(){
                 DisplaySpecificInterviewQuestions(response)
             }
         })
- }
-    
-    
-
-function DisplaySpecificInterviewQuestions(InterviewQuestions){
-    if(InterviewQuestions.length==0){
-        $('#view-interview-questions').html("no questions");
-        return;
     }
-    console.log("display specific questions");
-    console.log(InterviewQuestions);
-    let tableHtml = `
-    <table class='table'>
-    <tr>
-    <th>Interview nzme</th>
-    <th>questions</th>
-    </tr> `
-    sno = 1
-    InterviewQuestions.forEach(I =>{
-        tableHtml += `
-        <td>${sno}</td>
-        <td>${escapeHtml(I.I_name)}</td>
-        <td>${escapeHtml(I.questions)}</td>
+    
+    
+function DisplaySpecificInterviewQuestions(data){
+        let I_name = data.I_name
+        let questions = data.questions
+        
+        if(!questions || questions.length==0){
+            $('#view-interview-questions').html("no questions");
+            return;
+        }
+        console.log("display specific questions");
+        console.log(questions);
+        let tableHtml = `
+        <h3> Interview : ${I_name}</h3>
+        <table class='table'>
+        <tr>
+        <th>S.No</th>
+        <th>question</th>
+        <th>Skill</th>
+        <th>Difficulty</th>
+        </tr> `
+        sno = 1
+        questions.forEach(q=>{
+            tableHtml += `
+            <tr>
+            <td>${sno}</td>
+            <td>${escapeHtml(q.question)}</td>
+            <td>${escapeHtml(q.skill)}</td>
+            <td>${escapeHtml(q.difficulty)}</td>
+            <td><button class="btn btn-primary delete-question w-20" data-iq_id=${q.iq_id}>delete</button></td>
         </tr>
         `
         sno+=1
     })
-
     tableHtml += `</table>`;
     $('#view-interview-questions').html(tableHtml);
 }
 
+
+$(document).on('click','.delete-question',function(){
+    iq_id = $(this).data('iq_id');
+    dq_id = {
+        "dq_id" : iq_id
+    }
+    $.ajax({
+        url : '/delete_question',
+        type: 'POST',
+        contentType : 'application/json',
+        data : JSON.stringify(dq_id),
+        success : function(response){
+            console.log(response);
+            I_id = sessionStorage.getItem("I_id");
+            if(I_id){
+                FetchSpecificInterviewQuestions(I_id);
+            }
+        }
+    })
+})
