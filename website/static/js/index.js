@@ -233,7 +233,7 @@ function listAllInterviews(interviewList){
         <div class="card interview-card text-center" data-i_id=${interview.I_id}>
         <div class="card-body">
         <h5 class="card-title">${interview.I_name}</h5>
-        <a href="/edit_interview" class="btn btn-primary w-30">edit</a>
+        <a href="/ai_interview" class="btn btn-primary w-30">AI interview</a>
         <button class="btn btn-primary delete-interview w-20" data-i_id=${interview.I_id}>delete</button>
         <button class="btn btn-primary view-interview w-20" data-i_id=${interview.I_id}>view</button>
         </div>
