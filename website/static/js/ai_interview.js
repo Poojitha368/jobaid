@@ -25,35 +25,30 @@ function FetchSpecificInterviewQuestions(I_id){
 function DisplaySpecificInterviewQuestions(data){
         let I_name = data.I_name
         let questions = data.questions
+        let totalQuestions = questions.length
+        console.log("No of questions"+totalQuestions)
         
         if(!questions || questions.length==0){
-            $('#view-interview-questions').html("no questions");
+            $('#ai-interview-questions').html("no questions");
             return;
         }
         console.log("display specific questions");
         console.log(questions);
-        let tableHtml = `
-        <h3> Interview : ${I_name}</h3>
-        <table class='table'>
-        <tr>
-        <th>S.No</th>
-        <th>question</th>
-        <th>Skill</th>
-        <th>Difficulty</th>
-        </tr> `
         sno = 1
-        questions.forEach(q=>{
-            tableHtml += `
-            <tr>
-            <td>${sno}</td>
-            <td>${escapeHtml(q.question)}</td>
-            <td>${escapeHtml(q.skill)}</td>
-            <td>${escapeHtml(q.difficulty)}</td>
-            <td><button class="btn btn-primary delete-question w-20" data-iq_id=${q.iq_id}>delete</button></td>
-        </tr>
-        `
-        sno+=1
+        questions.forEach((q,i)=>{
+            setTimeout(()=>{
+                let questionHtml = `
+            <div class="question-container">
+            <h3> Interview of : ${I_name}</h3>
+            <b>Question ${sno} of ${totalQuestions}</b>
+            ${escapeHtml(q.question)}
+            </div>
+            `
+            sno+=1
+            $('#ai-interview-questions').html(questionHtml);
+
+            },i*5000);
+            
     })
-    tableHtml += `</table>`;
-    $('#ai-interview-questions').html(tableHtml);
+    $('#ai-interview-questions').append("<p><b>All questions completed!</b></p>");
 }
