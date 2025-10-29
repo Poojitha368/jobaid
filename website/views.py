@@ -166,3 +166,49 @@ def delete_question():
     db.session.delete(questionToDelete)
     db.session.commit()
     return f"{dq_id} question deleted sucessfully from interview questions"
+
+@views.route('/ai_interview',methods=['GET'])
+def ai_interview():
+    return render_template('ai_interview.html')
+
+
+@views.route('/fetch_questions_ai_interview',methods=['POST'])
+def fetch_questions_ai_interview():
+    data = request.get_json()
+    viewId = data.get('I_id')
+    print("interview id is",viewId)
+    interview = Interview.query.get(viewId)
+    I_name = interview.I_name
+    print(I_name)
+    interview_questions = Interview_Questions.query.filter_by(I_id = viewId).all()
+    print("Interview questions",interview_questions)
+
+    if not interview_questions:
+        return jsonify({
+            "I_name":I_name,
+            "questions":[]
+        })
+    # iq_map = {iq.q_id: iq.iq_id for iq in interview_questions}
+    q_ids = [iq.q_id for iq in interview_questions]
+    print(q_ids)
+
+    questions = Questions.query.filter(Questions.q_id.in_(q_ids)).all()
+
+    # print(questions)
+
+    q = []
+    for question in questions:
+        q.append({
+            # "iq_id":iq_map.get(question.q_id),
+            "q_id" : question.q_id,
+            "question":question.question,
+            "answer":question.answer,
+            "skill":question.skill,
+            "difficulty":question.difficulty
+        })
+    print(q)
+    viewInterviewData = {
+        "I_name" : I_name,
+        "questions" : q
+    }
+    return jsonify(viewInterviewData)
