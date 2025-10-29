@@ -344,3 +344,6 @@ $(document).on('click','.delete-question',function(){
         }
     })
 })
+
+
+
