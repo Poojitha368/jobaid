@@ -50,5 +50,4 @@ function DisplaySpecificInterviewQuestions(data){
             },i*5000);
             
     })
-    $('#ai-interview-questions').append("<p><b>All questions completed!</b></p>");
 }
