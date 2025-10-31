@@ -19,8 +19,7 @@ function FetchSpecificInterviewQuestions(I_id){
                 DisplaySpecificInterviewQuestions(response)
             }
         })
-    }
-    
+    }   
     
 function DisplaySpecificInterviewQuestions(data){
         let I_name = data.I_name
@@ -42,12 +41,16 @@ function DisplaySpecificInterviewQuestions(data){
             <h3> Interview of : ${I_name}</h3>
             <b>Question ${sno} of ${totalQuestions}</b>
             ${escapeHtml(q.question)}
+
+            <button id="startRecord">Start recording</button>
+            <button id="stopRecord">Stop recording</button>
+            <audio id="audio-playback" controls></audio>
             </div>
             `
             sno+=1
             $('#ai-interview-questions').html(questionHtml);
+            setupAudioRecording();
 
-            },i*5000);
-            
+            },i*10000);   
     })
 }
