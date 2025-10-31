@@ -212,3 +212,7 @@ def fetch_questions_ai_interview():
         "questions" : q
     }
     return jsonify(viewInterviewData)
+
+@views.route('/audio',methods = ['GET'])
+def audio():
+    return render_template('audio.html')
