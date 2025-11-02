@@ -1,28 +1,23 @@
 function setupAudioRecording(){
     let mediaRecorder;
     let audioChunks = []
-    $('#startRecord').click(function(){
+    $(document).on('click','#startRecord',function(){
         navigator.mediaDevices.getUserMedia({audio:true})
         .then(stream =>{
             mediaRecorder = new MediaRecorder(stream);
             mediaRecorder.start();
             audioChunks = [];
 
-            mediaRecorder.ondataavailable = event =>{
-                audioChunks.push(event.data);
-            };
+           $(mediaRecorder).on('dataavailable',function(event){
+            audioChunks.push(event.originalEvent.data)
+           });
 
-            mediaRecorder.onstop = async()=>{
-                const audioBlob = new Blob(audioChunks, {type: 'audio/wav'});
-                const base64Audio = await blobToBase64(audioBlob);
-                console.log(base64Audio);
-                const audioUrl = URL.createObjectURL(audioBlob);
-
-                console.log(audioUrl);
-                $('#audio-playback').attr('src', audioUrl);
-
-                convertToText(base64Audio);
-            };
+            $(mediaRecorder).on('stop',function(){
+                const audioBlob = new Blob(audioChunks, {type: 'audio/webm'});
+                const formData = new FormData();
+                formData.append('audio',audioBlob,'recording.webm');
+                convertToText(formData);
+            });
             
             $('#startRecord').prop('disabled', true);
             $('#stopRecord').prop('disabled', false);
@@ -40,29 +35,16 @@ function setupAudioRecording(){
     })
 }
 
-function blobToBase64(blob){
-    // asynchronus
-    return new Promise((resolve,reject) =>{
-        const reader = new FileReader();
-        reader.onloadend = ()=> resolve(reader.result.split(',')[1]); // remove "data:audio/wav;base64,  from data:audio/wav;base64,UklGRigAAABXQVZFZm10IBAAAAABAAEA..."
-        reader.onerror = reject;
-        reader.readAsDataURL(blob);
-
-    });
-}
-
-
-function convertToText(base64Audio){
-    audioData = {
-        audioData : base64Audio
-    }
+function convertToText(formData){
     $.ajax({
         url : '/convert_audio_to_text',
         type: 'POST',
-        contentType : 'application/json',
-        data : JSON.stringify(audioData),
+        data : formData,
+        processData : false,
+        contentType : false,
         success : function(response){
             console.log(response);
+            $('#audioText').text(response.text);
         }
     })
 }
