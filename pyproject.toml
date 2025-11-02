@@ -17,9 +17,13 @@ dependencies = [
     "markupsafe==3.0.2",
     "psycopg2==2.9.10",
     "psycopg2-binary==2.9.10",
+    "pydub>=0.25.1",
     "pymysql>=1.1.2",
     "python-dotenv==1.1.0",
+    "soundfile>=0.13.1",
+    "speechrecognition>=3.14.3",
     "sqlalchemy==2.0.41",
     "typing-extensions==4.14.0",
+    "vosk>=0.3.45",
     "werkzeug==3.1.3",
 ]
