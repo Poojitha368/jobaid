@@ -3,6 +3,8 @@ from flask_login import login_required,current_user
 from .models import Questions,Interview,Interview_Questions
 from . import db
 
+
+
 views = Blueprint('views',__name__)
 
 @views.route('/')
@@ -216,3 +218,5 @@ def fetch_questions_ai_interview():
 @views.route('/audio',methods = ['GET'])
 def audio():
     return render_template('audio.html')
+
+
