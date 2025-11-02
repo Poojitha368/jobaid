@@ -3,6 +3,11 @@ from flask_login import login_required,current_user
 from .models import Questions,Interview,Interview_Questions
 from . import db
 
+#audio to text 
+import speech_recognition as sr
+from pydub import AudioSegment
+import os
+
 
 
 views = Blueprint('views',__name__)
@@ -218,5 +223,37 @@ def fetch_questions_ai_interview():
 @views.route('/audio',methods = ['GET'])
 def audio():
     return render_template('audio.html')
+
+
+@views.route('/convert_audio_to_text',methods=['POST'])
+def convert_audio_to_text():
+    audio_file = request.files['audio']
+    filename = "answer.webm"
+    audio_file.save(filename)
+
+    # convert the audio file to .wav for speech recognition
+    sound = AudioSegment.from_file(filename,format="webm")
+    wav_path = "answer_converted.wav"
+    sound.export(wav_path,format="wav")
+
+    # speech to text using speech recognition
+    r = sr.Recognizer()
+    with sr.AudioFile(wav_path) as source:
+        audio_data = r.record(source)
+        try:
+            text = r.recognize_google(audio_data)
+        except sr.UnknownValueError:
+            text = "Sorry i couldnot understand the audio"
+        except sr.RequestError:
+            text = "Speech recognition service not available"
+    
+    os.remove(filename)
+    os.remove(wav_path)
+
+    text = {
+        "text":text
+    }
+
+    return jsonify(text)
 
 
