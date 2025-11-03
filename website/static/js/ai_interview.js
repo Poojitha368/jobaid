@@ -39,6 +39,7 @@ function DisplaySpecificInterviewQuestions(data) {
   function showQuestion(index) {
     if (index >= totalQuestions) {
       $("#ai-interview-questions").html("<h3>Interview completed");
+      window.location.href = "/performance_scores";
       return;
     }
     let q = questions[index];
@@ -55,7 +56,6 @@ function DisplaySpecificInterviewQuestions(data) {
             <div id="audioText"></div>
             </div>
             <button id="next-question">Next Question</button> 
-
             </div>
             `;
     $("#ai-interview-questions").html(questionHtml);
