@@ -35,6 +35,7 @@ function setupAudioRecording(){
     })
 }
 
+answers = []
 function convertToText(formData){
     $.ajax({
         url : '/convert_audio_to_text',
@@ -44,7 +45,16 @@ function convertToText(formData){
         contentType : false,
         success : function(response){
             console.log(response);
-            $('#audioText').text(response.text);
+            answer = response.text
+            $('#audioText').text(answer);
+            answers.push(answer);
+            console.log(answers);
+            sessionStorage.setItem("answers",JSON.stringify(answers))
+
+
+            // // audio play
+            // const audioUrl = URL.createObjectURL(audioBlob);
+            // $('#audio-playback').attr('src', audioUrl);
         }
     })
 }
