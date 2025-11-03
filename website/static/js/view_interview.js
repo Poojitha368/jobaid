@@ -25,6 +25,7 @@ function FetchSpecificInterviewQuestions(I_id){
 function DisplaySpecificInterviewQuestions(data){
         let I_name = data.I_name
         let questions = data.questions
+        sessionStorage.setItem("questions",JSON.stringify(questions))
         
         if(!questions || questions.length==0){
             $('#view-interview-questions').html("no questions");
