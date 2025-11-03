@@ -243,10 +243,14 @@ def convert_audio_to_text():
         try:
             text = r.recognize_google(audio_data)
         except sr.UnknownValueError:
-            text = "Sorry i couldnot understand the audio"
+            text = ""
         except sr.RequestError:
-            text = "Speech recognition service not available"
-    
+            text = ""
+        
+    # ✅ Make sure the AudioFile is closed before deleting
+    del audio_data
+    del source
+
     os.remove(filename)
     os.remove(wav_path)
 
@@ -257,3 +261,6 @@ def convert_audio_to_text():
     return jsonify(text)
 
 
+@views.route('/performance_scores',methods = ['GET'])
+def performance_scores():
+    return render_template('performance_scores.html')
