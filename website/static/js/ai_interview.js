@@ -39,6 +39,7 @@ function DisplaySpecificInterviewQuestions(data) {
   function showQuestion(index) {
     if (index >= totalQuestions) {
       $("#ai-interview-questions").html("<h3>Interview completed");
+      sessionStorage.setItem("questions",JSON.stringify(questions));
       window.location.href = "/performance_scores";
       return;
     }
