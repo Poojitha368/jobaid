@@ -1,8 +1,9 @@
+scores = []
 function ScoreAnswer(userAnswer){
     // get correct questions's answer for grading
     let correctAnswer = $('.question-container').data("correct-answer");
 
-    answers = {
+    Answers = {
         'user_answer':userAnswer,
         'correct_answer':correctAnswer
     }
@@ -12,9 +13,12 @@ function ScoreAnswer(userAnswer){
         url : '/score_answer',
         type : 'POST',
         contentType : 'application/json',
-        data : JSON.stringify(answers),
+        data : JSON.stringify(Answers),
         success : function(response){
-            console.log(response);
+            console.log(response.score);
+            score = response.score;
+            scores.push(score);
+            sessionStorage.setItem("StoredScores",JSON.stringify(scores));
         }
     })
 }
