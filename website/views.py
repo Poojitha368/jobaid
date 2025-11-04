@@ -264,3 +264,11 @@ def convert_audio_to_text():
 @views.route('/performance_scores',methods = ['GET'])
 def performance_scores():
     return render_template('performance_scores.html')
+
+@views.route('/score_answer',methods = ['POST'])
+def score_answer():
+    data = request.get_json()
+    UserAnswer = data.get('user_answer')
+    CorrectAnswer = data.get('correct_answer')
+    print("UserAnswer : ",UserAnswer)
+    print("CorrectAnswer : ",CorrectAnswer)
