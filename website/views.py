@@ -8,6 +8,9 @@ import speech_recognition as sr
 from pydub import AudioSegment
 import os
 
+# scoring ai model
+from .score_model import get_score
+
 
 
 views = Blueprint('views',__name__)
@@ -272,3 +275,11 @@ def score_answer():
     CorrectAnswer = data.get('correct_answer')
     print("UserAnswer : ",UserAnswer)
     print("CorrectAnswer : ",CorrectAnswer)
+
+    Score = get_score(CorrectAnswer,UserAnswer)
+    print("the score of 10 is ",Score)
+    score = {
+        'score':Score
+    }
+
+    return jsonify(score)
