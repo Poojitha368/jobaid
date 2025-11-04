@@ -45,7 +45,7 @@ function DisplaySpecificInterviewQuestions(data) {
     }
     let q = questions[index];
     let questionHtml = `
-            <div class="question-container">
+            <div class="question-container" data-correct-answer="${escapeHtml(q.answer)}">
             <h3> Interview of : ${I_name}</h3>
             <b>Question ${index + 1} of ${totalQuestions}</b>
             ${escapeHtml(q.question)}
@@ -60,6 +60,7 @@ function DisplaySpecificInterviewQuestions(data) {
             </div>
             `;
     $("#ai-interview-questions").html(questionHtml);
+    console.log("actual correct answer is : " + $('.question-container').data("correct-answer"))
     setupAudioRecording();
   }
 
