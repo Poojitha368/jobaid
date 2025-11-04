@@ -1,6 +1,7 @@
 function PerformanceScores(){
     questions = JSON.parse(sessionStorage.getItem("questions"));
-    answers = JSON.parse(sessionStorage.getItem("answers"));
+    user_answers = JSON.parse(sessionStorage.getItem("StoredAnswers"));
+    stored_scores = JSON.parse(sessionStorage.getItem("StoredScores"));
     console.log(questions);
     console.log(answers);
     function showInTable(){
@@ -18,8 +19,8 @@ function PerformanceScores(){
             <td>${index+1}</td>
             <td>${escapeHtml(q.question)}</td>
             <td>${escapeHtml(q.answer)}</td>
-            <td>${answers[index]}</td>
-            <td>10</td>
+            <td>${user_answers[index]}</td>
+            <td>${stored_scores[index]}</td>
             </tr>
             `
         })
