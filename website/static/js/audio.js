@@ -46,6 +46,8 @@ function convertToText(formData){
         success : function(response){
             console.log(response);
             answer = response.text
+            ScoreAnswer(answer);
+
             $('#audioText').text(answer);
             answers.push(answer);
             console.log(answers);
